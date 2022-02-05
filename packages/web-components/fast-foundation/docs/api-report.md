@@ -2808,7 +2808,7 @@ export class VirtualList extends FoundationElement {
     // @internal
     startSpacerSpan: number;
     // @internal
-    totalStackSpan: number;
+    totalListSpan: number;
     update(): void;
     // @beta
     viewport: string;
