@@ -81,7 +81,7 @@ Packages are located within the `packages` folder of the repository. Each packag
 If you'd like to contribute by fixing a bug, implementing a feature, or even correcting typos in our documentation, you'll want to submit a pull request. Before submitting a pull request, be sure to [rebase](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) your branch (typically from master) or use the *merge* button provided by GitHub.
 
 :::note
-For additional details on branch management read the [branch guide](./BRANCH_GUIDE.md) documentation.
+For additional details on branch management read the [branch guide](/docs/community/BRANCH_GUIDE.md) documentation.
 :::
 
 #### Change Files
@@ -106,7 +106,7 @@ When working across feature branches, you'll need to target the branch using the
 
 Running `yarn change` will walk you through a CLI process for generating change files. The process will walk you through selecting the type of change as well as ask you to provide a description of any changes. As a convenience, the utility looks to provide recent commit messages for use in the description. *For changes which do not affect the published package(s), please use "none" when selecting the change type*.
 
-More information on the change process and change types can be found on the [beachball website](https://microsoft.github.io/beachball/cli/change.html#change).
+More information on the change process and change types can be found on the [Beachball website](https://microsoft.github.io/beachball/cli/change.html#change).
 
 :::note
 If you are addressing multiple issues which are unrelated, consider either doing multiple pull requests, or generate separate change files to ensure accurate generation of changelogs and versioning of packages.
