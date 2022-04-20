@@ -2780,6 +2780,8 @@ export type VerticalPosition = "top" | "bottom" | "center" | "unset";
 
 // @public
 export class VirtualList extends FoundationElement {
+    // (undocumented)
+    autoResizeItems: boolean;
     autoUpdateMode: VirtualListAutoUpdateMode;
     // @internal (undocumented)
     connectedCallback(): void;
@@ -2798,6 +2800,10 @@ export class VirtualList extends FoundationElement {
     getItemSizeMap: (itemIndex: number) => SizeMap | null;
     // @internal
     handleChange(source: any, splices: Splice[]): void;
+    // (undocumented)
+    handleListItemConnected(e: Event): void;
+    // (undocumented)
+    handleListItemDisconnected(e: Event): void;
     // Warning: (ae-forgotten-export) The symbol "IdleCallbackQueue" needs to be exported by the entry point index.d.ts
     //
     // @internal
@@ -2845,7 +2851,6 @@ export class VirtualListItem extends FoundationElement {
     itemData: object;
     itemIndex: number;
     listItemContext: VirtualListItemContext;
-    // (undocumented)
     listItemTemplate: ViewTemplate;
     // @internal
     loadContent: boolean;
