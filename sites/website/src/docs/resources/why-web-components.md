@@ -2,7 +2,7 @@
 id: why-web-components
 title: Why Web Components?
 sidebar_label: Why Web Components?
-custom_edit_url: https://github.com/microsoft/fast/edit/master/sites/website/src/docs/resources/why-web-components.md
+custom_edit_url: https://github.com/microsoft/fast/edit/main/sites/website/src/docs/resources/why-web-components.md
 description: Performance, interoperability, and compatibility are a few reasons you might choose Web Components.
 keywords:
   - web components
@@ -32,6 +32,7 @@ Web Components are *literally*, the standard component model of the web, written
 By choosing web components, you enable your customers to choose their preferred application framework or library, rather than forcing them to use any particular JavaScript framework. Building your ecosystem or plugin model around one framework often means the exclusion of an entire set of customers who build on another.
 
 ### You might choose Web Components if you want to include community members who are not proficient with JavaScript.
+
 Most of the popular JavaScript frameworks require strong JavaScript skills and knowledge and often at least an intermediate proficiency for use. Web Components can be used without any knowledge of JavaScript whatsoever. Building around Web Components opens up opportunities for a broader range of customers with more diverse backgrounds.
 
 ### Who is using Web Components?

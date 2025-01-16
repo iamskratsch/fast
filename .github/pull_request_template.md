@@ -43,21 +43,11 @@ Please provide a summary of the tests affected by this work and any unique strat
 
 <!--- Review the list and put an x in the boxes that apply. -->
 
-- [ ] I have included a change request file using `$ yarn change`
+- [ ] I have included a change request file using `$ npm run change`
 - [ ] I have added tests for my changes.
 - [ ] I have tested my changes.
 - [ ] I have updated the project documentation to reflect my changes.
-- [ ] I have read the [CONTRIBUTING](https://github.com/microsoft/fast/blob/master/CONTRIBUTING.md) documentation and followed the [standards](/docs/community/code-of-conduct/#our-standards) for this project.
-
-### Component-specific
-
-<!--- Review the list and put an x in the boxes that apply. -->
-<!--- Remove this section if not applicable. -->
-
-- [ ] I have added a new component
-- [ ] I have modified an existing component
-- [ ] I have updated the [definition file](https://github.com/microsoft/fast/blob/master/packages/web-components/fast-components/CONTRIBUTING.md#definition)
-- [ ] I have updated the [configuration file](https://github.com/microsoft/fast/blob/master/packages/web-components/fast-components/CONTRIBUTING.md#configuration)
+- [ ] I have read the [CONTRIBUTING](https://github.com/microsoft/fast/blob/main/CONTRIBUTING.md) documentation and followed the [standards](https://github.com/microsoft/fast/blob/main/CODE_OF_CONDUCT.md#our-standards) for this project.
 
 ## ⏭ Next Steps
 

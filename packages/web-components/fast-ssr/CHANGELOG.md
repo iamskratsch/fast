@@ -1,8 +1,35 @@
 # Change Log - @microsoft/fast-ssr
 
-This log was last generated on Fri, 18 Aug 2023 22:48:12 GMT and should not be manually modified.
+This log was last generated on Mon, 19 Aug 2024 22:04:19 GMT and should not be manually modified.
 
 <!-- Start content -->
+
+## 1.0.0-beta.35
+
+Mon, 19 Aug 2024 22:04:19 GMT
+
+### Changes
+
+- Adds support for FASTElement hydration (171390049+prabhujayapal@users.noreply.github.com)
+- Bump @microsoft/fast-element to v2.0.0
+
+## 1.0.0-beta.33
+
+Thu, 20 Jun 2024 17:00:56 GMT
+
+### Changes
+
+- fix: typos in SSR README (seanmonahan@microsoft.com)
+- fix: change 'shadowroot' to 'shadowrootmode' to match spec (seanmonahan@microsoft.com)
+- Bump @microsoft/fast-foundation to v3.0.0-alpha.33
+
+## 1.0.0-beta.32
+
+Wed, 20 Dec 2023 19:03:48 GMT
+
+### Changes
+
+- Bump @microsoft/fast-foundation to v3.0.0-alpha.32
 
 ## 1.0.0-beta.31
 

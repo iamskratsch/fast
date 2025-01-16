@@ -4,27 +4,11 @@
 
 ### Machine setup
 
-To work with the FAST [monorepo](https://en.wikipedia.org/wiki/Monorepo) you'll need Git, Node.js, Yarn, and Lerna setup on your machine.
+To work with the FAST [monorepo](https://en.wikipedia.org/wiki/Monorepo) you'll need Git, Node.js, and Npm setup on your machine.
 
 FAST uses Git as its source control system. If you haven't already installed it, you can download it [here](https://git-scm.com/downloads) or if you prefer a GUI-based approach, try [GitHub Desktop](https://desktop.github.com/).
 
 Once Git is installed, you'll also need Node.js, which FAST uses as its JavaScript runtime, enabling its build and test scripts. Node.js instructions and downloads for your preferred OS can be found [here](https://nodejs.org/en/).
-
-Because the FAST repository is structured as a monorepo, we'll need a couple of tools to manage that. The first is Yarn, which can be installed by executing the following command at the terminal:
-
-```shell
-npm install -g yarn
-```
-
-The second tool you'll need is Lerna, which can be installed with this command:
-
-```bash
-yarn global add lerna@5.5.2
-```
-
-:::important
-The above steps are a one-time set up for your machine and do not need to be repeated after the initial configuration.
-:::
 
 ### Cloning the repository
 
@@ -44,30 +28,21 @@ git clone git@github.com:microsoft/fast.git
 From within the `fast` folder where you've cloned the repo, install all package dependencies and build all workspaces (local dependencies) with this command:
 
 ```bash
-yarn
+npm ci
 ```
 
 After the initial install, you can re-build all workspaces in the future with:
 
 ```bash
-lerna run prepare
+npm run build
 ```
-
-### Developing in `fast-components`
-If you're interested in contributing changes to the `fast-component` design system, start by navigating to the `fast-components` directory and starting the Storybook local server there.
-
-```bash
-cd packages/web-components/fast-components
-yarn start
-```
-Storybook will automatically open in a browser window at `localhost:6006`.
 
 ### Testing
 
 To run all tests for all packages, use the following command:
 
 ```bash
-lerna run test
+npm run test
 ```
 
 This command can also be run from within individual package folders to execute only tests from that package.
@@ -78,33 +53,33 @@ Packages are located within the `packages` folder of the repository. Each packag
 
 ### Submitting a pull request
 
-If you'd like to contribute by fixing a bug, implementing a feature, or even correcting typos in our documentation, you'll want to submit a pull request. Before submitting a pull request, be sure to [rebase](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) your branch (typically from master) or use the *merge* button provided by GitHub.
+If you'd like to contribute by fixing a bug, implementing a feature, or even correcting typos in our documentation, you'll want to submit a pull request. Before submitting a pull request, be sure to [rebase](https://www.atlassian.com/git/tutorials/merging-vs-rebasing) your branch with the default branch or use the *merge* button provided by GitHub.
 
 :::note
-For additional details on branch management, read the [branch guide](../community/branch-guide.md) documentation.
+For additional details on branch management, read the [branch guide](./BRANCH_GUIDE.md) documentation.
 :::
 
 #### Change Files
 
-Any pull request which includes changes within the `packages/*` directory requires a corresponding change file. Before pushing your changes to create a pull request, be sure you have included the necessary change file(s). To generate a change file, run `yarn change` in the root of the repository. The generated file will be checked into the repo automatically for you as part of the process.
+Any pull request which includes changes within the `packages/*` directory requires a corresponding change file. Before pushing your changes to create a pull request, be sure you have included the necessary change file(s). To generate a change file, run `npm run change` in the root of the repository. The generated file will be checked into the repo automatically for you as part of the process.
 
 :::note
-When working across feature branches, you'll need to target the branch using the following command: `yarn change --branch origin/{branch-name}`.
+When working across feature branches, you'll need to target the branch using the following command: `npm run change --branch origin/{branch-name}`.
 :::
 
 **Example: Generated change file:**
 ```json
 {
   "type": "minor",
-  "comment": "add fancy new feature for foundation",
-  "packageName": "@microsoft/fast-foundation",
+  "comment": "add fancy new feature to FASTElement",
+  "packageName": "@microsoft/fast-element",
   "email": "name@example.com",
   "dependentChangeType": "minor",
   "date": "2021-03-01T19:10:06.323Z"
 }
 ```
 
-Running `yarn change` will walk you through a CLI process for generating change files. The process will walk you through selecting the type of change as well as ask you to provide a description of any changes. As a convenience, the utility looks to provide recent commit messages for use in the description. *For changes that do not affect the published package(s), please use "none" when selecting the change type*.
+Running `npm run change` will walk you through a CLI process for generating change files. The process will walk you through selecting the type of change as well as ask you to provide a description of any changes. As a convenience, the utility looks to provide recent commit messages for use in the description. *For changes that do not affect the published package(s), please use "none" when selecting the change type*.
 
 More information on the change process and change types can be found on the [Beachball website](https://microsoft.github.io/beachball/cli/change.html#change).
 
@@ -118,11 +93,11 @@ If you are finding that your changes are either breaking changes or require mult
 
 ### Merging a pull request
 
-If you are merging a pull request, be sure to use the pull request title as the commit title. The title should follow the [conventional commit guidelines](https://www.conventionalcommits.org/). It is recommended that if you are merging in pull requests regularly that you add a browser extension that will auto-correct the title for you. A few that should do this are [Refined GitHub](https://github.com/sindresorhus/refined-github) and [Squashed Merge Message](https://github.com/zachwhaley/squashed-merge-message).
+If you are merging a pull request, be sure to use the pull request title as the commit title. The title should follow the [conventional commit guidelines](https://www.conventionalcommits.org/).
 
 ### Documenting breaking changes
 
-Make sure to document the migration strategy in a `MIGRATION.md` file in the package(s) that has breaking changes, eg. `packages/web-components/fast-foundation/MIGRATION.md`.
+Make sure to document the migration strategy in a `MIGRATION.md` file in the package(s) that has breaking changes, eg. `packages/web-components/fast-element/MIGRATION.md`.
 
 Example of how to format `MIGRATION.md`:
 
@@ -179,7 +154,7 @@ The development, release, and work management processes must reflect this princi
 
 ### Code owners
 
-As subject matter experts, *code owners* approve pull requests on the packages they own. There is a required minimum of one code owner for each package. *Code owners* are listed in [CODEOWNERS](https://github.com/microsoft/fast/blob/master/.github/CODEOWNERS).
+As subject matter experts, *code owners* approve pull requests on the packages they own. There is a required minimum of one code owner for each package. *Code owners* are listed in [CODEOWNERS](https://github.com/microsoft/fast/blob/main/.github/CODEOWNERS).
 
 ### Contributors
 
@@ -187,7 +162,7 @@ As subject matter experts, *code owners* approve pull requests on the packages t
 
 ### Nominations & appointments
 
-* To become a *contributor*, a community member must have a pull request approved and merged into the FAST project master branch.
+* To become a *contributor*, a community member must have a pull request approved and merged into the FAST project main branch.
 * To become a *collaborator*, a *contributor* will petition the *steering committee*, who will approve or deny the request.
 * To become a *code owner*, a *collaborator* will be (a) nominated by a *steering committee* member or (b) petition the *steering committee*, who will approve or deny the request.
 * To join the *steering committee*, a *collaborator* will be nominated by a *steering committee* member and the *steering committee*, who will approve or deny the request.
@@ -231,6 +206,6 @@ By making a contribution to this project, I certify that:
 Several open source projects have influenced our contribution policy:
 
 * [Project Governance @Node](https://nodejs.org/en/about/governance/)
-* [Contributions @Node](https://github.com/nodejs/node/blob/master/CONTRIBUTING.md)
+* [Contributions @Node](https://github.com/nodejs/node/blob/main/CONTRIBUTING.md)
 * [Open Source @GitHub](https://github.com/blog/2039-adopting-the-open-code-of-conduct)
 * [Open Source examples @todogroup](https://github.com/todogroup/policies)

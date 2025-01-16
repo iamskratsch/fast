@@ -3,20 +3,18 @@
   "version": "0.6.2",
   "private": true,
   "scripts": {
-    "clean": "concurrently \"yarn:clean-*\"",
+    "clean": "concurrently \"npm run clean-docs\" \"npm run clean-static\"",
     "clean-docs": "node ../../build/clean.js docs",
     "clean-static": "node ../../build/clean.js static",
     "copy-static": "node src/copy-static.js",
-    "generate": "concurrently \"yarn:generate-*\"",
-    "generate-badges": "yarn workspace @microsoft/site-utilities generate:badges",
     "generate-docs": "node src/generate-docs.js",
-    "generate-homepage": "yarn workspace @microsoft/fast-website build",
-    "prebuild": "yarn clean && yarn generate && yarn copy-static",
+    "prebuild": "npm run clean && npm run generate-docs && npm run copy-static",
     "build": "docusaurus build",
-    "prestart": "yarn prebuild",
+    "prestart": "npm run prebuild",
     "serve": "docusaurus serve",
     "start": "docusaurus start",
-    "swizzle": "docusaurus swizzle"
+    "swizzle": "docusaurus swizzle",
+    "test": "npx docusaurus-mdx-checker"
   },
   "browserslist": {
     "production": [
@@ -30,15 +28,20 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@docusaurus/core": "2.0.0-beta.20",
-    "@docusaurus/preset-classic": "2.0.0-beta.20",
-    "@docusaurus/theme-live-codeblock": "2.0.0-beta.20",
-    "@microsoft/api-documenter": "7.8.13",
-    "concurrently": "^6.2.0"
-  },
   "dependencies": {
-    "mdx-mermaid": "^1.2.1",
-    "mermaid": "^9.1.2"
+    "@docusaurus/core": "^3.2.1",
+    "@docusaurus/module-type-aliases": "^3.2.1",
+    "@docusaurus/preset-classic": "^3.2.1",
+    "@docusaurus/theme-live-codeblock": "^3.2.1",
+    "@docusaurus/theme-mermaid": "^3.2.1",
+    "@docusaurus/types": "^3.2.1",
+    "@mdx-js/react": "^3.0.1",
+    "@microsoft/api-documenter": "^7.24.2",
+    "@types/react": "^18.3.1",
+    "concurrently": "^8.0.0",
+    "prism-react-renderer": "^2.3.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "~4.7.0"
   }
 }

@@ -2,7 +2,7 @@
 id: writing-documentation
 title: Writing documentation
 sidebar_label: Writing documentation
-custom_edit_url: https://github.com/microsoft/fast/edit/master/sites/website/src/docs/community/writing-documentation.md
+custom_edit_url: https://github.com/microsoft/fast/edit/main/sites/website/src/docs/community/writing-documentation.md
 description: Thank you for your interest in contributing to our documentation. We put together this guide to help you get started.
 keywords:
   - contributing
@@ -24,7 +24,7 @@ Each article begins with a YAML metadata block followed by a body written with [
 id: writing-documentation
 title: Writing Documentation
 sidebar_label: Writing Documentation
-custom_edit_url: https://github.com/microsoft/fast/edit/master/sites/website/src/docs/community/writing-documentation.md
+custom_edit_url: https://github.com/microsoft/fast/edit/main/sites/website/src/docs/community/writing-documentation.md
 ---
 ```
 
@@ -81,7 +81,7 @@ export class Statistics {
 
 ## Building and testing the docs
 
-To test documentation changes, clone and build the documentation as described in [the contributor guide](./contributor-guide.md). Next, open a terminal and navigate to `sites/website` and run the documentation site with `yarn start`. This will allow you to preview the site at `localhost:3000` and validate that your changes are rendering.
+To test documentation changes, clone and build the documentation as described in [the contributor guide](./contributor-guide.md). Next, open a terminal and navigate to `sites/website` and run the documentation site with `npm start`. This will allow you to preview the site at `localhost:3000` and validate that your changes are rendering.
 
 ## Style guide
 

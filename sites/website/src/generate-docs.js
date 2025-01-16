@@ -4,17 +4,6 @@ const { exec } = require("child_process");
 const fs = require("fs-extra");
 const { getPackageJsonDir } = require("../../../build/get-package-json");
 
-const fastFoundation = getPackageJsonDir("@microsoft/fast-foundation"); // path.dirname( require.resolve("@microsoft/fast-foundation/package.json"));
-const fastElement = getPackageJsonDir("@microsoft/fast-element"); // path.dirname(require.resolve("@microsoft/fast-element/package.json"));
-const fastComponents = getPackageJsonDir("@microsoft/fast-components", {
-    paths: [
-        path.resolve(
-            path.dirname(require.resolve("@microsoft/fast-website/package.json")),
-            "node_modules"
-        ),
-    ],
-});
-
 // sites/website
 const projectRoot = path.resolve(__dirname, "../");
 const root = path.resolve(projectRoot, "../../");
@@ -43,22 +32,19 @@ function findFiles(startPath, filter, paths = []) {
 }
 
 const packages = [
-    "fast-animation",
-    "fast-colors",
-    "fast-element",
-    "fast-foundation",
-    "fast-components",
-    "fast-ssr",
+    {
+        main: "fast-element",
+        exports: [
+            "context",
+            "di"
+        ]
+    }
 ];
 
-function identifyPackage(path) {
-    for (const pkg of packages) {
-        if (path.indexOf(pkg) !== -1) {
-            return pkg;
-        }
-    }
-
-    return "";
+function updateContentForMdx(content) {
+    content = content.replace("{", "&#123;");
+    content = content.replace("}", "&#125;");
+    return content;
 }
 
 async function safeCopy(source, dest) {
@@ -83,47 +69,17 @@ async function safeWrite(dest, content) {
     }
 }
 
-async function moveMarkdownFiles(src, docsFolderDest) {
-    const files = findFiles(src, ".md");
-    for (const source of files) {
-        const filename = path.basename(source);
-        const dest = path.join(__dirname, "../docs", docsFolderDest, filename);
-
-        await safeCopy(source, dest);
-    }
-}
-
 async function copyArticleMarkdown() {
-    await moveMarkdownFiles(
-        path.resolve(fastFoundation, "docs/integrations"),
-        "integrations"
-    );
-    await moveMarkdownFiles(path.resolve(fastFoundation, "docs/tools"), "tools");
-    await moveMarkdownFiles(path.resolve(fastElement, "docs/guide"), "fast-element");
-    await moveMarkdownFiles(path.resolve(fastComponents, "docs/design"), "design");
-
-    const componentDocs = findFiles(path.resolve(fastFoundation, "src"), "README.md");
-
-    for (const source of componentDocs) {
-        const folder = path.dirname(source);
-        const dest = path.join(
-            "./docs/components",
-            `fast-${folder.substr(folder.lastIndexOf(path.sep) + 1)}.mdx`
-        );
-
-        await safeCopy(source, dest);
-    }
-
     const mergeDocs = [
         {
             src: path.resolve(root, "CODE_OF_CONDUCT.md"),
-            dest: path.resolve(outputDir, "community/code-of-conduct.md"),
+            dest: path.resolve(outputDir, "community/CODE_OF_CONDUCT.md"),
             metadata: {
                 id: "code-of-conduct",
                 title: "Code of Conduct",
                 sidebar_label: "Code of Conduct",
                 custom_edit_url:
-                    "https://github.com/microsoft/fast/edit/master/CODE_OF_CONDUCT.md",
+                    "https://github.com/microsoft/fast/edit/main/CODE_OF_CONDUCT.md",
                 description:
                     "In the interest of fostering an open and welcoming environment, we as contributors and maintainers pledge to making participation in our project and our community a harassment-free experience for everyone.",
                 keywords: ["code of conduct"],
@@ -131,51 +87,51 @@ async function copyArticleMarkdown() {
         },
         {
             src: path.resolve(root, "CONTRIBUTING.md"),
-            dest: path.resolve(outputDir, "community/contributor-guide.md"),
+            dest: path.resolve(outputDir, "community/CONTRIBUTING.md"),
             metadata: {
                 id: "contributor-guide",
                 title: "Contributor Guide",
                 sidebar_label: "Contributor Guide",
                 custom_edit_url:
-                    "https://github.com/microsoft/fast/edit/master/CONTRIBUTING.md",
+                    "https://github.com/microsoft/fast/edit/main/CONTRIBUTING.md",
                 description: "Guide for contributing to FAST.",
                 keywords: ["contributing"],
             },
         },
         {
             src: path.resolve(root, "BRANCH_GUIDE.md"),
-            dest: path.resolve(outputDir, "community/branch-guide.md"),
+            dest: path.resolve(outputDir, "community/BRANCH_GUIDE.md"),
             metadata: {
                 id: "branch-guide",
                 title: "Branch Guide",
                 sidebar_label: "Branch Guide",
                 custom_edit_url:
-                    "https://github.com/microsoft/fast/blob/master/BRANCH_GUIDE.md",
+                    "https://github.com/microsoft/fast/blob/main/BRANCH_GUIDE.md",
                 desciption: "A branch guide for the FAST repository.",
                 keywords: ["branch guide"],
             },
         },
         {
             src: path.resolve(root, "LICENSE"),
-            dest: path.resolve(outputDir, "resources/license.md"),
+            dest: path.resolve(outputDir, "resources/LICENSE.md"),
             metadata: {
                 id: "license",
                 title: "License",
                 sidebar_label: "License",
-                custom_edit_url: "https://github.com/microsoft/fast/edit/master/LICENSE",
+                custom_edit_url: "https://github.com/microsoft/fast/edit/main/LICENSE",
                 description: "MIT License",
                 keywords: ["mit license"],
             },
         },
         {
             src: path.resolve(root, "SECURITY.md"),
-            dest: path.resolve(outputDir, "resources/security.md"),
+            dest: path.resolve(outputDir, "resources/SECURITY.md"),
             metadata: {
                 id: "security",
                 title: "Security",
                 sidebar_label: "Security",
                 custom_edit_url:
-                    "https://github.com/microsoft/fast/edit/master/SECURITY.md",
+                    "https://github.com/microsoft/fast/edit/main/SECURITY.md",
                 description:
                     "Microsoft takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations.",
                 keywords: ["security"],
@@ -185,34 +141,17 @@ async function copyArticleMarkdown() {
             src: path.resolve(
                 getPackageJsonDir("@microsoft/fast-element"),
                 "./docs/ACKNOWLEDGEMENTS.md"
-            ), // require.resolve("@microsoft/fast-element/docs/ACKNOWLEDGEMENTS.md"),
-            dest: path.resolve(outputDir, "resources/acknowledgements.md"),
+            ),
+            dest: path.resolve(outputDir, "resources/ACKNOWLEDGEMENTS.md"),
             metadata: {
                 id: "acknowledgements",
                 title: "Acknowledgements",
                 sidebar_label: "Acknowledgements",
                 custom_edit_url:
-                    "https://github.com/microsoft/fast/edit/master/packages/web-components/fast-element/docs/ACKNOWLEDGEMENTS.md",
+                    "https://github.com/microsoft/fast/edit/main/packages/web-components/fast-element/docs/ACKNOWLEDGEMENTS.md",
                 description:
                     "There are many great open source projects that have inspired us and enabled us to build FAST.",
                 keywords: ["acknowlegements"],
-            },
-        },
-        {
-            src: path.resolve(
-                getPackageJsonDir("@microsoft/fast-element"),
-                "./README.md"
-            ),
-            dest: path.resolve(outputDir, "fast-element/getting-started.md"),
-            metadata: {
-                id: "getting-started",
-                title: "Getting Started with FAST Element",
-                sidebar_label: "Getting Started",
-                custom_edit_url:
-                    "https://github.com/microsoft/fast/edit/master/packages/web-components/fast-element/README.md",
-                description:
-                    "The fast-element library is a lightweight means to easily build performant, memory-efficient, standards-compliant Web Components.",
-                keywords: ["fast-element", "web components"],
             },
         },
     ];
@@ -281,40 +220,32 @@ async function copyArticleMarkdown() {
     }
 }
 
-// Copy the api.json files from the web-components packages.
+// Copy the api.json files from the packages.
 async function copyAPI() {
     for (const pkg of packages) {
         await safeCopy(
             path.resolve(
-                getPackageJsonDir(`@microsoft/${pkg}`),
-                `./dist/${pkg}.api.json`
+                getPackageJsonDir(`@microsoft/${pkg.main}`),
+                `./dist/${pkg.main}.api.json`
             ),
-            // require.resolve(`@microsoft/${pkg}/dist/${pkg}.api.json`),
-            `./src/docs/api/${pkg}.api.json`
+            `./src/docs/api/${pkg.main}.api.json`
         );
+
+        if (Array.isArray(pkg.exports)) {
+            for (const pkgExport of pkg.exports) {
+                await safeCopy(
+                    path.resolve(
+                        getPackageJsonDir(`@microsoft/${pkg.main}`),
+                        `./dist/${pkgExport}/${pkgExport}.api.json`
+                    ),
+                    `./src/docs/api/${pkg.main}/${pkgExport}/${pkgExport}.api.json`
+                );
+            }
+        }
     }
 }
 
-async function buildAPIMarkdown() {
-    await copyAPI();
-
-    await new Promise((resolve, reject) =>
-        exec(
-            "yarn api-documenter markdown -i src/docs/api -o docs/api",
-            (err, stdout, stderr) => {
-                console.log(stdout);
-                console.error(stderr);
-                if (err) {
-                    return reject(err);
-                }
-
-                return resolve();
-            }
-        )
-    );
-
-    const dir = "./docs/api";
-    const docFiles = await fs.readdir(dir);
+async function convertDocFiles(dir, docFiles, package, exportPath) {
     for (const docFile of docFiles) {
         try {
             const { name: id, ext } = path.parse(docFile);
@@ -322,8 +253,7 @@ async function buildAPIMarkdown() {
                 continue;
             }
 
-            const pkg = identifyPackage(docFile);
-            const isAPIHome = id === pkg;
+            const isAPIHome = !id.includes(".");
             const docPath = path.join(dir, docFile);
             const input = fs.createReadStream(docPath);
             const output = [];
@@ -349,6 +279,10 @@ async function buildAPIMarkdown() {
                     }
                 }
 
+                if (package && exportPath) {
+                    line = line.replace(package, `${package}/${exportPath}`);
+                }
+
                 const homeLink = line.match(/\[Home\]\(.\/index\.md\) &gt; (.*)/);
 
                 if (homeLink) {
@@ -360,6 +294,7 @@ async function buildAPIMarkdown() {
                 }
 
                 if (!skip) {
+                    line = updateContentForMdx(line);
                     output.push(line);
                 }
             });
@@ -371,13 +306,65 @@ async function buildAPIMarkdown() {
                 "---",
                 `id: ${id}`,
                 `title: ${title}`,
-                `hide_title: ${!isAPIHome}`,
+                `hide_title: ${isAPIHome}`,
                 "---",
             ];
 
             await safeWrite(docPath, header.concat(output).join("\n"));
         } catch (err) {
             console.error(`Could not process ${docFile}: ${err}`);
+        }
+    }
+}
+
+async function buildAPIMarkdown() {
+    await copyAPI();
+
+    await new Promise((resolve, reject) =>
+        exec(
+            "api-documenter markdown -i src/docs/api -o docs/api",
+            (err, stdout, stderr) => {
+                console.log(stdout);
+                console.error(stderr);
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve();
+            }
+        )
+    );
+
+    for (const pkg of packages) {
+        for (const pkgExport of pkg.exports) {
+            await new Promise((resolve, reject) =>
+                exec(
+                    `api-documenter markdown -i src/docs/api/${pkg.main}/${pkgExport} -o docs/api/${pkg.main}/${pkgExport}`,
+                    (err, stdout, stderr) => {
+                        console.log(stdout);
+                        console.error(stderr);
+                        if (err) {
+                            return reject(err);
+                        }
+
+                        return resolve();
+                    }
+                )
+            );
+        }
+    }
+
+    const dir = "./docs/api";
+    const docFiles = await fs.readdir(dir);
+
+    convertDocFiles(dir, docFiles);
+
+    for (const pkg of packages) {
+        for (const pkgExport of pkg.exports) {
+            const exportDir = `./docs/api/${pkg.main}/${pkgExport}`;
+            const exportDocFiles = await fs.readdir(exportDir);
+
+            convertDocFiles(exportDir, exportDocFiles, `@microsoft/${pkg.main}`, `${pkgExport}.js`);
         }
     }
 }

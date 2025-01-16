@@ -1,7 +1,8 @@
-import { Readable } from "stream";
-import express, { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
+import { Readable } from "stream";
+
+import express, { Request, Response } from "express";
 
 const __dirname = path.resolve(path.dirname(""));
 const PORT = 8080;
@@ -58,6 +59,14 @@ app.get("/fast-style.js", (req: Request, res: Response) =>
         res
     )
 );
+app.get("/fast-style-config.js", (req: Request, res: Response) =>
+    handlePathRequest(
+        "./dist/esm/styles/fast-style-config.js",
+        "application/javascript",
+        req,
+        res
+    )
+);
 app.get("/fast-command-buffer", (req: Request, res: Response) =>
     handlePathRequest(
         "./src/fast-command-buffer/index.fixture.html",
@@ -73,5 +82,8 @@ app.get("/fast-command-buffer.js", (req: Request, res: Response) =>
         req,
         res
     )
+);
+app.get("/placeholder.png", (req, res) =>
+    res.sendFile(path.resolve(__dirname, "./server/placeholder.png"))
 );
 app.listen(PORT);
